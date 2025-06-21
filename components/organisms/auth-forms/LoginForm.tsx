@@ -43,7 +43,7 @@ function LoginForm() {
             return;
         }
 
-        const response = await loginAction(d.email, d.password);
+        const response = await loginAction(d);
 
         if (!response.success) {
             toast.error(response.message);

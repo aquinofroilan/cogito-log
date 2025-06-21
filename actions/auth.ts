@@ -1,8 +1,10 @@
 "use server";
+import type { LoginSchemaType } from "@/schemas";
 import { supabaseServerClient } from "@/utils/supabase/supabase";
 
-const loginAction = async (email: string, password: string) => {
+const loginAction = async (values: LoginSchemaType) => {
     try {
+        const { email, password } = values;
         const supabase = await supabaseServerClient();
         const { data, error } = await supabase.auth.signInWithPassword({
             email,
