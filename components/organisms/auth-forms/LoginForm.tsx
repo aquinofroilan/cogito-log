@@ -16,6 +16,8 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { LoginSchema, LoginSchemaType } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { loginAction } from "@/actions";
+import { toast } from "sonner";
 
 function LoginForm() {
     const loginForm = useForm({
@@ -35,8 +37,15 @@ function LoginForm() {
         formState: { isSubmitting },
     } = loginForm;
 
-    const onSubmit = (data: LoginSchemaType) => {
-        console.log("Login data:", data);
+    const onSubmit = (d: LoginSchemaType) => {
+        try {
+            if (d.email === "" || d.password === "") {
+                toast.error("Please fill in all fields.");
+                return;
+            }
+
+            // const result = loginAction( d.email, d.password );
+        } catch (error) {}
     };
     return (
         <>
