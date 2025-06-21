@@ -1,8 +1,10 @@
 "use server";
 import { SignInSchema, SignUpSchema, type SignInSchemaType, type SignUpSchemaType } from "@/schemas";
 import { supabaseServerClient } from "@/utils/supabase/supabase";
+import { redirect } from "next/navigation";
 
 const signInAction = async (values: SignInSchemaType) => {
+    let data;
     try {
         const validatedData = SignInSchema.safeParse(values);
         if (!validatedData.success) return { success: false, message: "Invalid input data." };
@@ -20,12 +22,11 @@ const signInAction = async (values: SignInSchemaType) => {
 
         if (error) return { success: false, message: error.message };
         else if (!data) return { success: false, message: "Unexpected login failure." };
-
-        return { success: true, data };
     } catch (err: unknown) {
         const errorMessage = err instanceof Error ? err.message : "An unknown error occurred.";
         return { success: false, message: errorMessage };
     }
+    redirect("/home");
 };
 
 const signUpAction = async (values: SignUpSchemaType) => {

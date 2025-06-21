@@ -50,7 +50,6 @@ function SignInForm() {
             return;
         }
 
-        const userData = response.data;
         toast.success("Login successful!");
     };
 
