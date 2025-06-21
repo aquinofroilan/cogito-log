@@ -14,6 +14,8 @@ import {
 } from "@/components/ui";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
+import { LoginSchema, LoginSchemaType } from "@/schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 function LoginForm() {
     const loginForm = useForm({
@@ -23,20 +25,20 @@ function LoginForm() {
         },
         progressive: true,
         mode: "onBlur",
-        reValidateMode: "onChange",
+        reValidateMode: "onSubmit",
         criteriaMode: "all",
+        resolver: zodResolver(LoginSchema), // Assuming LoginSchema is imported from schemas/index.ts
     });
     const { handleSubmit, control } = loginForm;
 
-    const onSubmit = (data: { email: string; password: string }) => {
-        // Handle login logic here
+    const onSubmit = (data: LoginSchemaType) => {
         console.log("Login data:", data);
     };
     return (
         <>
             <Form {...loginForm}>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                    <CardContent>
+                    <CardContent className="space-y-4">
                         <FormField
                             control={control}
                             name="email"
@@ -52,11 +54,7 @@ function LoginForm() {
                                         />
                                     </FormControl>
                                     <FormDescription>The email you used during registration.</FormDescription>
-                                    <FormMessage>
-                                        {fieldState.error
-                                            ? fieldState.error.message
-                                            : "Please enter a valid email address."}
-                                    </FormMessage>
+                                    <FormMessage>{fieldState.error ? fieldState.error.message : ""}</FormMessage>
                                 </FormItem>
                             )}
                         />
@@ -75,23 +73,17 @@ function LoginForm() {
                                         />
                                     </FormControl>
                                     <FormDescription>The password you used during registration.</FormDescription>
-                                    <FormMessage>
-                                        {fieldState.error
-                                            ? fieldState.error.message
-                                            : "Your password must be at least 6 characters long."}
-                                    </FormMessage>
+                                    <FormMessage>{fieldState.error ? fieldState.error.message : ""}</FormMessage>
                                 </FormItem>
                             )}
                         />
                     </CardContent>
-                    <CardFooter>
+                    <CardFooter className="flex justify-between flex-col">
                         <Button type="submit" className="btn">
                             Login
                         </Button>
-                        <Button asChild>
-                            <Link href="/signup" className="btn-secondary">
-                                Sign Up
-                            </Link>
+                        <Button asChild variant={"outline"} className="mt-2">
+                            <Link href="/signup">Sign Up</Link>
                         </Button>
                     </CardFooter>
                 </form>
