@@ -51,6 +51,7 @@ function SignInForm() {
         }
 
         const userData = response.data;
+        toast.success("Login successful!");
     };
 
     return (

@@ -52,6 +52,7 @@ function SignUpForm() {
         }
 
         const userData = response.data;
+        toast.success("Registration successful!");
     };
     return (
         <Form {...signUpForm}>
@@ -119,7 +120,7 @@ function SignUpForm() {
                         Sign Up
                     </Button>
                     <Button asChild variant={"outline"} className="mt-2 w-full" disabled={isSubmitting}>
-                        <Link href="/signup">Sign In</Link>
+                        <Link href="/signin">Sign In</Link>
                     </Button>
                 </CardFooter>
             </form>
