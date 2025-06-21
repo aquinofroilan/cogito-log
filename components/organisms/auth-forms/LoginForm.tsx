@@ -44,7 +44,7 @@ function LoginForm() {
                 return;
             }
 
-            // const result = loginAction( d.email, d.password );
+            const result = loginAction(d.email, d.password);
         } catch (error) {}
     };
     return (
