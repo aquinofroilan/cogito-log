@@ -42,7 +42,6 @@ function SignInForm() {
             toast.error("Please fill in all fields.");
             return;
         }
-
         const response = await signInAction(d);
 
         if (!response.success) {
