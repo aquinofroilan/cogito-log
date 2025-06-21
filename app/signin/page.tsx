@@ -1,6 +1,5 @@
-import LoginForm from "@/components/organisms/auth-forms/LoginForm";
+import SignInForm from "@/components/organisms/auth-forms/sign-in-form";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui";
-import React from "react";
 
 const SignIn = () => {
     return (
@@ -10,7 +9,7 @@ const SignIn = () => {
                     <CardTitle>Sign In</CardTitle>
                     <CardDescription>Enter your credentials to access your account.</CardDescription>
                 </CardHeader>
-                <LoginForm />
+                <SignInForm />
             </Card>
         </main>
     );

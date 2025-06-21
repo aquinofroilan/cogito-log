@@ -1,10 +1,10 @@
 "use server";
-import { LoginSchema, SignUpSchema, type LoginSchemaType, type SignUpSchemaType } from "@/schemas";
+import { SignInSchema, SignUpSchema, type SignInSchemaType, type SignUpSchemaType } from "@/schemas";
 import { supabaseServerClient } from "@/utils/supabase/supabase";
 
-const loginAction = async (values: LoginSchemaType) => {
+const signInAction = async (values: SignInSchemaType) => {
     try {
-        const validatedData = LoginSchema.safeParse(values);
+        const validatedData = SignInSchema.safeParse(values);
         if (!validatedData.success) return { success: false, message: "Invalid input data." };
         if (values.email === "" || values.password === "")
             return { success: false, message: "Email and password cannot be empty." };
@@ -53,4 +53,4 @@ const signUpAction = async (values: SignUpSchemaType) => {
     }
 };
 
-export { loginAction, signUpAction };
+export { signInAction, signUpAction };
