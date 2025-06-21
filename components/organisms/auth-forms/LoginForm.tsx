@@ -37,16 +37,22 @@ function LoginForm() {
         formState: { isSubmitting },
     } = loginForm;
 
-    const onSubmit = (d: LoginSchemaType) => {
-        try {
-            if (d.email === "" || d.password === "") {
-                toast.error("Please fill in all fields.");
-                return;
-            }
+    const onSubmit = async (d: LoginSchemaType) => {
+        if (d.email === "" || d.password === "") {
+            toast.error("Please fill in all fields.");
+            return;
+        }
 
-            // const result = loginAction( d.email, d.password );
-        } catch (error) {}
+        const response = await loginAction(d.email, d.password);
+
+        if (!response.success) {
+            toast.error(response.message);
+            return;
+        }
+
+        const userData = response.data;
     };
+
     return (
         <>
             <Form {...loginForm}>
