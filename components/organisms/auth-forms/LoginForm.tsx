@@ -29,7 +29,11 @@ function LoginForm() {
         criteriaMode: "all",
         resolver: zodResolver(LoginSchema), // Assuming LoginSchema is imported from schemas/index.ts
     });
-    const { handleSubmit, control } = loginForm;
+    const {
+        handleSubmit,
+        control,
+        formState: { isSubmitting },
+    } = loginForm;
 
     const onSubmit = (data: LoginSchemaType) => {
         console.log("Login data:", data);
@@ -51,6 +55,8 @@ function LoginForm() {
                                             placeholder="Enter your email"
                                             {...field}
                                             className="input"
+                                            disabled={isSubmitting}
+                                            autoComplete="email"
                                         />
                                     </FormControl>
                                     <FormDescription>The email you used during registration.</FormDescription>
@@ -70,6 +76,8 @@ function LoginForm() {
                                             placeholder="Enter your password"
                                             {...field}
                                             className="input"
+                                            disabled={isSubmitting}
+                                            autoComplete="current-password"
                                         />
                                     </FormControl>
                                     <FormDescription>The password you used during registration.</FormDescription>
@@ -79,10 +87,10 @@ function LoginForm() {
                         />
                     </CardContent>
                     <CardFooter className="flex justify-between flex-col">
-                        <Button type="submit" className="btn">
+                        <Button type="submit" className="btn w-full" disabled={isSubmitting}>
                             Login
                         </Button>
-                        <Button asChild variant={"outline"} className="mt-2">
+                        <Button asChild variant={"outline"} className="mt-2 w-full" disabled={isSubmitting}>
                             <Link href="/signup">Sign Up</Link>
                         </Button>
                     </CardFooter>

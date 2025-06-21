@@ -4,7 +4,7 @@ import React from "react";
 
 const SignIn = () => {
     return (
-        <main>
+        <main className="flex items-center justify-center min-h-screen p-8">
             <Card>
                 <CardHeader>
                     <CardTitle>Sign In</CardTitle>
