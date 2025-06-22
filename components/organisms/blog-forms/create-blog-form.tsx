@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import {
     Input,
     Button,
@@ -41,7 +40,7 @@ const CreateBlogForm = () => {
     };
     return (
         <Form {...createBlogForm}>
-            <form onSubmit={createBlogForm.handleSubmit(onSubmit)} className="space-y-4 w-full">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 w-full">
                 <CardContent className="space-y-4 w-full">
                     <FormField
                         control={control}
@@ -73,7 +72,7 @@ const CreateBlogForm = () => {
                     />
                 </CardContent>
                 <CardFooter className="flex justify-between">
-                    <Button type="submit" className="w-full">
+                    <Button type="submit" className="w-full" disabled={isSubmitting}>
                         Create Blog Post
                     </Button>
                 </CardFooter>

@@ -11,6 +11,8 @@ const HomePage = () => {
                 </CardHeader>
                 <CreateBlogForm />
             </Card>
+
+
         </main>
     );
 };
