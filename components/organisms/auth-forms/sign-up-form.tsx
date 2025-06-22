@@ -18,10 +18,8 @@ import { SignUpSchema, type SignUpSchemaType } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpAction } from "@/actions";
 import { toast } from "sonner";
-import { useRouter } from "next/router";
 
 function SignUpForm() {
-    const router = useRouter();
     const signUpForm = useForm({
         defaultValues: {
             email: "",
@@ -60,7 +58,6 @@ function SignUpForm() {
         }
 
         toast.success("Registration successful!");
-        router.push("/signin"); // Redirect to sign-in page after successful registration
     };
     return (
         <Form {...signUpForm}>
