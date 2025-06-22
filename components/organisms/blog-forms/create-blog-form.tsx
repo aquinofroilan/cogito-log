@@ -41,8 +41,8 @@ const CreateBlogForm = () => {
     };
     return (
         <Form {...createBlogForm}>
-            <form onSubmit={createBlogForm.handleSubmit(onSubmit)} className="space-y-4">
-                <CardContent className="space-y-4">
+            <form onSubmit={createBlogForm.handleSubmit(onSubmit)} className="space-y-4 w-full">
+                <CardContent className="space-y-4 w-full">
                     <FormField
                         control={control}
                         name="title"

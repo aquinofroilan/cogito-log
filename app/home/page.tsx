@@ -3,7 +3,7 @@ import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui";
 
 const HomePage = () => {
     return (
-        <main className="flex items-center justify-center min-h-screen">
+        <main className="flex justify-center min-h-screen">
             <Card className="w-full max-w-md p-6">
                 <CardHeader>
                     <CardTitle>Sign In</CardTitle>
