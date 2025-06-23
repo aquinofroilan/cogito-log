@@ -77,10 +77,17 @@ const updateBlogAction = async (blog_id: string, values: NewBlogSchemaType) => {
     }
 };
 
-const deleteBlogAction = async (blog_id: string) => {
+const deleteBlogAction = async (blog_id: number) => {
     try {
         const supabase = await supabaseServerClient();
-        const { data, error } = await supabase.from("blogs").delete().eq("blog_id", blog_id).select();
+        const session = await supabase.auth.getUser();
+        if (!session.data.user) return { success: false, message: "User not authenticated." };
+        const { data, error } = await supabase
+            .from("blogs")
+            .delete()
+            .eq("blog_id", blog_id)
+            .eq("user_uuid", session.data.user.id)
+            .select();
 
         if (error) return { success: false, message: error.message };
         else if (!data || data.length === 0) return { success: false, message: "Unexpected blog deletion failure." };
