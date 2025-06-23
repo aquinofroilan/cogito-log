@@ -36,10 +36,15 @@ const createBlogAction = async (values: NewBlogSchemaType) => {
 const getBlogsAction = async () => {
     try {
         const supabase = await supabaseServerClient();
-        console.log(supabase.auth.getSession());
-        const { data, error } = await supabase.from("blogs").select("*").order("created_at", { ascending: false });
+        const session = await supabase.auth.getUser();
+        if (!session.data.user) return { success: false, message: "User not authenticated." };
+        const { data, error } = await supabase
+            .from("blogs")
+            .select()
+            .eq("user_uuid", session.data.user.id)
+            .order("created_at", { ascending: false });
 
-        console.log();
+        console.log(data, error);
         if (error) return { success: false, message: error.message };
         else if (!data || data.length === 0) return { success: false, message: "No blogs found." };
         return { success: true, data };
