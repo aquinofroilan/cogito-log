@@ -42,7 +42,7 @@ const HomePage = () => {
                             <CardDescription>{new Date(blog.created_at).toLocaleDateString()}</CardDescription>
                         </CardHeader>
                         <CardContent>{blog.content}</CardContent>
-                        <CardFooter>
+                        <CardFooter className="flex flex-col gap-2">
                             <Button variant="outline" className="w-full">
                                 Edit
                             </Button>
