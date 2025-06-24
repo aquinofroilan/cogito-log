@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NewBlogSchema, type NewBlogSchemaType } from "@/schemas";
 import { createBlogAction } from "@/actions";
+import { toast } from "sonner";
 
 const CreateBlogForm = () => {
     const createBlogForm = useForm({
@@ -36,13 +37,15 @@ const CreateBlogForm = () => {
         formState: { isSubmitting },
     } = createBlogForm;
     const onSubmit = async (data: NewBlogSchemaType) => {
-        // Handle form submission logic here
         try {
-            const result = createBlogAction(data);
-            console.log("Blog post created successfully:", result);
+            const result = await createBlogAction(data);
+            if (!result.success) {
+                toast.error("Error creating blog post");
+                return;
+            }
+            toast.success("Blog post created successfully!");
         } catch (error) {
             console.error("Error creating blog post:", error);
-            
         }
     };
     return (

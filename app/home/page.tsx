@@ -24,7 +24,6 @@ const HomePage = () => {
               data: Blog[];
               message?: undefined;
           } = use(getBlogsAction());
-    console.log(userBlogs);
     return (
         <main className="flex items-center flex-col min-h-screen">
             <Card className="w-full max-w-md h-fit p-6">
