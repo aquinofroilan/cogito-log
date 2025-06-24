@@ -28,8 +28,10 @@ const HomePage = () => {
         <main className="flex items-center flex-col min-h-screen">
             <Card className="w-full max-w-md h-fit p-6">
                 <CardHeader>
-                    <CardTitle>Sign In</CardTitle>
-                    <CardDescription>Enter your credentials to access your account.</CardDescription>
+                    <CardTitle>Create New Blog</CardTitle>
+                    <CardDescription>
+                        Use the form below to create a new blog post. Your blogs will be listed below the form.
+                    </CardDescription>
                 </CardHeader>
                 <CreateBlogForm />
             </Card>
