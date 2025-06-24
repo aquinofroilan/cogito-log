@@ -1,4 +1,5 @@
 import { getBlogsAction } from "@/actions";
+import DeleteBlogButton from "@/components/atoms/delete-blog-button";
 import CreateBlogForm from "@/components/organisms/blog-forms/create-blog-form";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, Button } from "@/components/ui";
 import { use } from "react";
@@ -35,6 +36,7 @@ const HomePage = () => {
 
             <section className="w-full max-w-3xl mt-8">
                 <h2 className="text-2xl font-bold mb-4">Your Blogs</h2>
+                {!userBlogs.success && <p>No blogs found.</p>}
                 {userBlogs.data?.map((blog) => (
                     <Card key={blog.blog_id} className="mb-4">
                         <CardHeader>
@@ -46,9 +48,7 @@ const HomePage = () => {
                             <Button variant="outline" className="w-full">
                                 Edit
                             </Button>
-                            <Button variant="destructive" className="w-full mt-2">
-                                Delete
-                            </Button>
+                            <DeleteBlogButton blog_id={blog.blog_id} />
                         </CardFooter>
                     </Card>
                 ))}
