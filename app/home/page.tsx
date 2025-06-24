@@ -2,6 +2,7 @@ import { getBlogsAction } from "@/actions";
 import DeleteBlogButton from "@/components/atoms/delete-blog-button";
 import CreateBlogForm from "@/components/organisms/blog-forms/create-blog-form";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, Button } from "@/components/ui";
+import Link from "next/link";
 import { use } from "react";
 
 interface Blog {
@@ -47,8 +48,8 @@ const HomePage = () => {
                         </CardHeader>
                         <CardContent>{blog.content}</CardContent>
                         <CardFooter className="flex flex-col gap-2">
-                            <Button variant="outline" className="w-full">
-                                Edit
+                            <Button variant="outline" className="w-full" asChild>
+                                <Link href={`/edit/${blog.blog_id}`}>Edit</Link>
                             </Button>
                             <DeleteBlogButton blog_id={blog.blog_id} />
                         </CardFooter>
