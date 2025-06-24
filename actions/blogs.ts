@@ -142,6 +142,7 @@ const getBlogAction = async (blog_id: number) => {
             .eq("blog_id", blog_id)
             .eq("user_uuid", session.data.user.id)
             .single();
+        console.log(data, error);
         if (error) return { success: false, message: error.message };
         else if (!data) return { success: false, message: "Blog not found." };
         return { success: true, data };
