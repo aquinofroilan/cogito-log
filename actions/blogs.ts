@@ -21,10 +21,9 @@ const createBlogAction = async (values: NewBlogSchemaType) => {
             .from("blogs")
             .insert([{ title, content, user_uuid: session.data.user.id }])
             .select();
-
         if (error) return { success: false, message: error.message };
         else if (!data || data.length === 0) return { success: false, message: "Unexpected blog creation failure." };
-        revalidatePath("/home");
+        revalidatePath("/home", "page");
         return { success: true, data };
     } catch (error: unknown) {
         const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
@@ -32,20 +31,43 @@ const createBlogAction = async (values: NewBlogSchemaType) => {
     }
 };
 
-const getBlogsAction = async () => {
+const getBlogsAction = async (page: number = 1, limit: number = 5) => {
     try {
         const supabase = await supabaseServerClient();
         const session = await supabase.auth.getUser();
         if (!session.data.user) return { success: false, message: "User not authenticated." };
+
+        const offset = (page - 1) * limit;
+
         const { data, error } = await supabase
             .from("blogs")
             .select()
             .eq("user_uuid", session.data.user.id)
-            .order("created_at", { ascending: false });
+            .order("created_at", { ascending: false })
+            .range(offset, offset + limit - 1);
 
         if (error) return { success: false, message: error.message };
         else if (!data || data.length === 0) return { success: false, message: "No blogs found." };
         return { success: true, data };
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
+        return { success: false, message: errorMessage };
+    }
+};
+
+const getBlogsCountAction = async () => {
+    try {
+        const supabase = await supabaseServerClient();
+        const session = await supabase.auth.getUser();
+        if (!session.data.user) return { success: false, message: "User not authenticated." };
+
+        const { count, error } = await supabase
+            .from("blogs")
+            .select("*", { count: "exact", head: true })
+            .eq("user_uuid", session.data.user.id);
+
+        if (error) return { success: false, message: error.message };
+        return { success: true, count: count || 0 };
     } catch (error: unknown) {
         const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
         return { success: false, message: errorMessage };
@@ -64,10 +86,9 @@ const updateBlogAction = async (blog_id: string, values: NewBlogSchemaType) => {
 
         const supabase = await supabaseServerClient();
         const { data, error } = await supabase.from("blogs").update({ title, content }).eq("blog_id", blog_id).select();
-
         if (error) return { success: false, message: error.message };
         else if (!data || data.length === 0) return { success: false, message: "Unexpected blog update failure." };
-        revalidatePath("/home");
+        revalidatePath("/home", "page");
         return { success: true, data };
     } catch (error: unknown) {
         const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
@@ -89,10 +110,9 @@ const deleteBlogAction = async (blog_id: number) => {
             .eq("blog_id", blog_id)
             .eq("user_uuid", session.data.user.id)
             .select();
-
         if (error) return { success: false, message: error.message };
         else if (!data || data.length === 0) return { success: false, message: "Unexpected blog deletion failure." };
-        revalidatePath("/home");
+        revalidatePath("/home", "page");
         return { success: true, data };
     } catch (error: unknown) {
         const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
@@ -149,4 +169,12 @@ const getBlogAction = async (blog_id: number) => {
     }
 };
 
-export { createBlogAction, getBlogsAction, updateBlogAction, deleteBlogAction, editBlogAction, getBlogAction };
+export {
+    createBlogAction,
+    getBlogsAction,
+    getBlogsCountAction,
+    updateBlogAction,
+    deleteBlogAction,
+    editBlogAction,
+    getBlogAction,
+};
