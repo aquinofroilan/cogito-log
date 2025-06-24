@@ -49,7 +49,7 @@ const HomePage = () => {
                         <CardContent>{blog.content}</CardContent>
                         <CardFooter className="flex flex-col gap-2">
                             <Button variant="outline" className="w-full" asChild>
-                                <Link href={`/edit/${blog.blog_id}`}>Edit</Link>
+                                <Link href={`/home/${blog.blog_id}/edit`}>Edit</Link>
                             </Button>
                             <DeleteBlogButton blog_id={blog.blog_id} />
                         </CardFooter>
