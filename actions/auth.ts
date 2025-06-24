@@ -54,4 +54,10 @@ const signUpAction = async (values: SignUpSchemaType) => {
     }
 };
 
-export { signInAction, signUpAction };
+const signOutAction = async () => {
+    const supabase = await supabaseServerClient();
+    const { error } = await supabase.auth.signOut();
+    redirect("/signin");
+};
+
+export { signInAction, signUpAction, signOutAction };

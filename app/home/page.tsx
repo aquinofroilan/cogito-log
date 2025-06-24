@@ -26,6 +26,9 @@ const HomePage = () => {
           } = use(getBlogsAction());
     return (
         <main className="flex items-center flex-col min-h-screen">
+            <Button asChild variant="destructive" className="mt-8 mb-4">
+                <Link href="/signout">Sign Out</Link>
+            </Button>
             <Card className="w-full max-w-md h-fit p-6">
                 <CardHeader>
                     <CardTitle>Create New Blog</CardTitle>
