@@ -14,9 +14,11 @@ import {
     CardContent,
     CardFooter,
 } from "@/components/ui";
+import type { EditBlogSchemaType } from "@/schemas";
 import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 function EditBlogForm(id: number) {
     const editBlogForm = useForm({
@@ -31,12 +33,15 @@ function EditBlogForm(id: number) {
         control,
         formState: { isSubmitting },
     } = editBlogForm;
-    const onSubmit = async (data: any) => {
+    const onSubmit = async (data: EditBlogSchemaType) => {
         try {
-            const result = editBlogAction(data);
-            console.log("Blog post created successfully:", result);
+            const result = await editBlogAction(data);
+            if (!result.success) {
+                toast.error(result.message);
+            }
+            toast.success("Blog post updated successfully!");
         } catch (error) {
-            console.error("Error creating blog post:", error);
+            toast.error("An error occurred while updating the blog post.");
         }
     };
     return (

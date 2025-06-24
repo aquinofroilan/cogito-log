@@ -120,6 +120,7 @@ const editBlogAction = async (values: EditBlogSchemaType) => {
             .select();
         if (error) return { success: false, message: error.message };
         else if (!data) return { success: false, message: "Unexpected blog update failure." };
+        revalidatePath(`/home/${validatedBlogData.data.blog_id}/edit`);
         return { success: true, data };
     } catch (error: unknown) {
         const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
