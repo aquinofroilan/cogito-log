@@ -3,3 +3,4 @@ export { PasswordBaseSchema, type PasswordBaseSchemaType } from "./base-schemas/
 export { SignInSchema, type SignInSchemaType } from "./auth/signin-schema";
 export { SignUpSchema, type SignUpSchemaType } from "./auth/signup-schema";
 export { NewBlogSchema, type NewBlogSchemaType } from "./blog/new-blog-schema";
+export { EditBlogSchema, type EditBlogSchemaType } from "./blog/edit-blog-schema";
