@@ -40,7 +40,7 @@ function EditBlogForm({ id, title, content }: { id: string; title: string; conte
                 toast.error(result.message);
             }
             toast.success("Blog post updated successfully!");
-        } catch (error) {
+        } catch {
             toast.error("An error occurred while updating the blog post.");
         }
     };
