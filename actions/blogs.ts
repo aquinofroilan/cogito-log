@@ -1,6 +1,6 @@
 "use server";
 
-import { NewBlogSchema, type NewBlogSchemaType } from "@/schemas";
+import { EditBlogSchema, NewBlogSchema, type EditBlogSchemaType, type NewBlogSchemaType } from "@/schemas";
 import { supabaseServerClient } from "@/utils/supabase/supabase";
 import { revalidatePath } from "next/cache";
 
@@ -79,6 +79,9 @@ const updateBlogAction = async (blog_id: string, values: NewBlogSchemaType) => {
 
 const deleteBlogAction = async (blog_id: number) => {
     try {
+        if (!blog_id || typeof blog_id !== "number" || blog_id <= 0) {
+            return { success: false, message: "Invalid blog ID." };
+        }
         const supabase = await supabaseServerClient();
         const session = await supabase.auth.getUser();
         if (!session.data.user) return { success: false, message: "User not authenticated." };
@@ -99,4 +102,29 @@ const deleteBlogAction = async (blog_id: number) => {
     }
 };
 
-export { createBlogAction, getBlogsAction, updateBlogAction, deleteBlogAction };
+const editBlogAction = async (values: EditBlogSchemaType) => {
+    try {
+        const supabase = await supabaseServerClient();
+        const validatedBlogData = EditBlogSchema.safeParse(values);
+        if (!validatedBlogData.success) return { success: false, message: "Invalid input data." };
+        const session = await supabase.auth.getUser();
+        if (!session.data.user) return { success: false, message: "User not authenticated." };
+        const { data, error } = await supabase
+            .from("blogs")
+            .update({
+                title: validatedBlogData.data.title,
+                content: validatedBlogData.data.content,
+            })
+            .eq("blog_id", validatedBlogData.data.blog_id)
+            .eq("user_uuid", session.data.user.id)
+            .select();
+        if (error) return { success: false, message: error.message };
+        else if (!data) return { success: false, message: "Unexpected blog update failure." };
+        return { success: true, data };
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
+        return { success: false, message: errorMessage };
+    }
+};
+
+export { createBlogAction, getBlogsAction, updateBlogAction, deleteBlogAction, editBlogAction };
