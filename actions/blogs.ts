@@ -21,7 +21,6 @@ const createBlogAction = async (values: NewBlogSchemaType) => {
             .from("blogs")
             .insert([{ title, content, user_uuid: session.data.user.id }])
             .select();
-        console.log(data, error);
 
         if (error) return { success: false, message: error.message };
         else if (!data || data.length === 0) return { success: false, message: "Unexpected blog creation failure." };
@@ -44,7 +43,6 @@ const getBlogsAction = async () => {
             .eq("user_uuid", session.data.user.id)
             .order("created_at", { ascending: false });
 
-        console.log(data, error);
         if (error) return { success: false, message: error.message };
         else if (!data || data.length === 0) return { success: false, message: "No blogs found." };
         return { success: true, data };
@@ -142,7 +140,6 @@ const getBlogAction = async (blog_id: number) => {
             .eq("blog_id", blog_id)
             .eq("user_uuid", session.data.user.id)
             .single();
-        console.log(data, error);
         if (error) return { success: false, message: error.message };
         else if (!data) return { success: false, message: "Blog not found." };
         return { success: true, data };
