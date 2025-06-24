@@ -20,12 +20,16 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-function EditBlogForm(id: number) {
+function EditBlogForm({id, title, content}: {
+    id: string;
+    title: string;
+    content: string;
+}) {
     const editBlogForm = useForm({
         defaultValues: {
-            title: "",
-            content: "",
-            blog_id: id,
+            title: title,
+            content: content,
+            blog_id: Number(id),
         },
     });
     const {

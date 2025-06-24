@@ -128,4 +128,27 @@ const editBlogAction = async (values: EditBlogSchemaType) => {
     }
 };
 
-export { createBlogAction, getBlogsAction, updateBlogAction, deleteBlogAction, editBlogAction };
+const getBlogAction = async (blog_id: number) => {
+    try {
+        if (!blog_id || typeof blog_id !== "number" || blog_id <= 0) {
+            return { success: false, message: "Invalid blog ID." };
+        }
+        const supabase = await supabaseServerClient();
+        const session = await supabase.auth.getUser();
+        if (!session.data.user) return { success: false, message: "User not authenticated." };
+        const { data, error } = await supabase
+            .from("blogs")
+            .select()
+            .eq("blog_id", blog_id)
+            .eq("user_uuid", session.data.user.id)
+            .single();
+        if (error) return { success: false, message: error.message };
+        else if (!data) return { success: false, message: "Blog not found." };
+        return { success: true, data };
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
+        return { success: false, message: errorMessage };
+    }
+};
+
+export { createBlogAction, getBlogsAction, updateBlogAction, deleteBlogAction, editBlogAction, getBlogAction };
