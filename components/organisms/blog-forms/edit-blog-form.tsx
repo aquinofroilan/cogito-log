@@ -20,12 +20,12 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-function EditBlogForm(id: number) {
+function EditBlogForm({ id, title, content }: { id: string; title: string; content: string }) {
     const editBlogForm = useForm({
         defaultValues: {
-            title: "",
-            content: "",
-            blog_id: id,
+            title: title,
+            content: content,
+            blog_id: Number(id),
         },
     });
     const {
@@ -78,7 +78,9 @@ function EditBlogForm(id: number) {
                     />
                 </CardContent>
                 <CardFooter>
-                    <Button type="submit">Save</Button>
+                    <Button type="submit" disabled={isSubmitting}>
+                        Save
+                    </Button>
                     <Button type="button" variant="secondary" asChild disabled={isSubmitting}>
                         <Link href="/home">Cancel</Link>
                     </Button>
